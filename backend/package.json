@@ -1,0 +1,13 @@
+{
+  "dependencies": {
+    "fsevents": "^1.0.15",
+    "koa": "^2.5.0"
+  },
+  "name": "sample",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "license": "MIT"
+}

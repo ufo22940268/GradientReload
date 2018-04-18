@@ -1,6 +1,8 @@
 FROM ubuntu:16.04
 
 COPY sources.list.wily /etc/apt/sources.list
+
+
 # ssh
 RUN apt-get update \
   && apt-get install -y openssh-server \
@@ -31,6 +33,8 @@ EXPOSE 22
 RUN apt-get install -y nginx
 COPY nginx/my_second_process.sh my_second_process
 EXPOSE 80
+COPY nginx/sites-available /etc/nginx/sites-available
 
 WORKDIR /tmp
+
 CMD ["/usr/bin/supervisord"]

@@ -13,7 +13,34 @@ services:
       context: ./
       dockerfile: Dockerfile-nginx
     ports:
-      - 8081:80
+      - 8081:81
+  backend1:
+    image: "node:8"
+    user: "node"
+    working_dir: /home/node/app
+    environment:
+      - NODE_ENV=production
+      - SERVER_ID=backend1
+    volumes:
+      - ./backend:/home/node/app
+    expose:
+      - "3000"
+    command: "npm start"
+
+  backend2:
+    image: "node:8"
+    user: "node"
+    working_dir: /home/node/app
+    environment:
+      - NODE_ENV=production
+      - SERVER_ID=backend2
+    volumes:
+      - ./backend:/home/node/app
+    expose:
+      - "3000"
+    ports:
+      - 3000:3000
+    command: "npm start"
 
 volumes:
   jenkins_data:
