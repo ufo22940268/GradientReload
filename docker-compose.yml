@@ -1,0 +1,19 @@
+version: '3'
+services:
+  jenkins:
+    build:
+      context: ./
+      dockerfile: Dockerfile-jenkins
+    ports:
+      - 8080:8080
+    volumes:
+      - jenkins_data:/var/jenkins_home
+  nginx:
+    build:
+      context: ./
+      dockerfile: Dockerfile-nginx
+    ports:
+      - 8081:80
+
+volumes:
+  jenkins_data:

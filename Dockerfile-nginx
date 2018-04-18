@@ -1,0 +1,36 @@
+FROM ubuntu:16.04
+
+COPY sources.list.wily /etc/apt/sources.list
+# ssh
+RUN apt-get update \
+  && apt-get install -y openssh-server \
+  && apt-get install -y default-jdk
+RUN mkdir /var/run/sshd
+RUN echo 'root:screencast' | chpasswd
+RUN sed -i 's/PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
+
+# SSH login fix. Otherwise user is kicked off after login
+RUN sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd
+
+ENV NOTVISIBLE "in users profile"
+RUN echo "export VISIBLE=now" >> /etc/profile
+
+
+# supervisor
+RUN apt-get install -y supervisor
+
+RUN mkdir -p /var/log/supervisor
+COPY nginx/supervisord.conf /tmp/supervisord.conf
+
+RUN mkdir -p /data/supervisor
+WORKDIR /data/supervisor
+COPY nginx/my_first_process.sh my_first_process
+EXPOSE 22
+
+#nginx
+RUN apt-get install -y nginx
+COPY nginx/my_second_process.sh my_second_process
+EXPOSE 80
+
+WORKDIR /tmp
+CMD ["/usr/bin/supervisord"]
