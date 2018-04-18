@@ -1,1 +1,3 @@
 FROM jenkins/jenkins:lts
+#ENV JENKINS_HOME=/var/my_jenkins_home
+

@@ -6,14 +6,14 @@ services:
       dockerfile: Dockerfile-jenkins
     ports:
       - 8080:8080
-    volumes:
-      - jenkins_data:/var/jenkins_home
+#    volumes:
+#      - ./jenkins_home:/var/my_jenkins_home
   nginx:
     build:
       context: ./
       dockerfile: Dockerfile-nginx
     ports:
-      - 8081:81
+      - 8081:80
   backend1:
     image: "node:8"
     user: "node"
@@ -41,6 +41,3 @@ services:
     ports:
       - 3000:3000
     command: "npm start"
-
-volumes:
-  jenkins_data:
